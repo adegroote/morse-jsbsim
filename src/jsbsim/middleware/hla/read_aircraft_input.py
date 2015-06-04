@@ -6,7 +6,7 @@ class AircraftPoseInput(AbstractHLAInput):
     def initialize(self):
         AbstractHLAInput.initialize(self)
 
-        aircraft_handle = self.amb.object_handle('aircraft')
+        aircraft_handle = self.amb.object_handle('Aircraft')
 
         self.handle_position = self.amb.attribute_handle("position", aircraft_handle)
         self.handle_orientation = self.amb.attribute_handle("orientation", aircraft_handle)
