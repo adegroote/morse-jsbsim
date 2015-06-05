@@ -1,0 +1,6 @@
+- Add some documentation how to launch it properly
+- Make the stuff really work 
+- Really send commands
+- Add a way to send command from Morse
+- Remove all this hard-coded stuff in the c++ node by passing properly arguments to it (from builder script information)
+- Add some way to launch a simulation easier
