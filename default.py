@@ -15,6 +15,10 @@ teleport.alter('ECEF')
 teleport.alter('NED')
 teleport.add_stream('hla', 'jsbsim.middleware.hla.read_aircraft_input.AircraftPoseInput')
 
+pose = Pose()
+robot.append(pose)
+pose.add_stream('socket')
+
 # set 'fastmode' to True to switch to wireframe mode
 env = Environment('sandbox', fastmode = False)
 env.set_camera_location([-18.0, -6.7, 10.8])
@@ -25,3 +29,5 @@ env.configure_stream_manager(
          fom = 'aircraft.fed', name = 'Morse', federation = 'morse_fdm',
          sync_point = 'Init', time_sync = True)
 
+
+env.set_log_level('morse.middleware.hla_datastream', 'debug')
