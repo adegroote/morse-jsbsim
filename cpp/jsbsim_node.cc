@@ -150,7 +150,7 @@ jsbsim_node::setTimeRegulation(bool start_constrained, bool start_regulating)
                     requestTime += TIME_STEP ;
 
 		    granted = false ;
-                    rtiamb.timeAdvanceRequest(requestTime);		    
+                    rtiamb.timeAdvanceRequest(requestTime);
                     while (!granted) {
                         try {
                             tick();
@@ -206,7 +206,7 @@ jsbsim_node::synchronize(int autostart)
         }
         catch (RTI::Exception& e) {
         }
-       
+
         while (paused)
             try {
                 tick();
@@ -391,7 +391,7 @@ void
 jsbsim_node::sendUpdate(
 			const RTI::FedTime& UpdateTime,
 		    RTI::ObjectHandle id)
-{    
+{
     libhla::MessageBuffer buffer;
     RTI::AttributeHandleValuePairSet *attributeSet ;
 
@@ -402,12 +402,12 @@ jsbsim_node::sendUpdate(
 	buffer.write_double(_y);
 	buffer.write_double(_z);
     buffer.updateReservedBytes();
-    attributeSet->add(position_id, static_cast<char*>(buffer(0)),buffer.size());    
-    
+    attributeSet->add(position_id, static_cast<char*>(buffer(0)),buffer.size());
+
     buffer.reset();
-    buffer.write_double(_yaw);	
-    buffer.write_double(_pitch);	
-    buffer.write_double(_roll);	
+    buffer.write_double(_yaw);
+    buffer.write_double(_pitch);
+    buffer.write_double(_roll);
     buffer.updateReservedBytes();
     attributeSet->add(orientation_id, static_cast<char*>(buffer(0)),buffer.size());
 
@@ -474,16 +474,16 @@ jsbsim_node::reflectAttributeValues(
 {
     libhla::MessageBuffer buffer;
 
-    RTI::ULong valueLength ;   
+    RTI::ULong valueLength ;
 
     for (unsigned int j=0 ; j<theAttributes.size(); j++) {
 
         RTI::AttributeHandle parmHandle = theAttributes.getHandle(j);
         valueLength = theAttributes.getValueLength(j);
         assert(valueLength>0);
-        buffer.resize(valueLength);        
-        buffer.reset();        
-        theAttributes.getValue(j, static_cast<char*>(buffer(0)), valueLength);        
+        buffer.resize(valueLength);
+        buffer.reset();
+        theAttributes.getValue(j, static_cast<char*>(buffer(0)), valueLength);
         buffer.assumeSizeFromReservedBytes();
 
         if (parmHandle == control_id)
@@ -505,16 +505,16 @@ jsbsim_node::reflectAttributeValues(
 {
     libhla::MessageBuffer buffer;
 
-    RTI::ULong valueLength ;   
+    RTI::ULong valueLength ;
 
     for (unsigned int j=0 ; j<theAttributes.size(); j++) {
 
         RTI::AttributeHandle parmHandle = theAttributes.getHandle(j);
         valueLength = theAttributes.getValueLength(j);
         assert(valueLength>0);
-        buffer.resize(valueLength);        
-        buffer.reset();        
-        theAttributes.getValue(j, static_cast<char*>(buffer(0)), valueLength);        
+        buffer.resize(valueLength);
+        buffer.reset();
+        theAttributes.getValue(j, static_cast<char*>(buffer(0)), valueLength);
         buffer.assumeSizeFromReservedBytes();
 
         if (parmHandle == control_id)
@@ -527,9 +527,9 @@ jsbsim_node::reflectAttributeValues(
  */
 void
 jsbsim_node::timeAdvanceGrant(const RTI::FedTime& theTime)
-    throw (RTI::InvalidFederationTime, RTI::TimeAdvanceWasNotInProgress, 
+    throw (RTI::InvalidFederationTime, RTI::TimeAdvanceWasNotInProgress,
 	   RTI::FederateInternalError)
-{    
+{
     granted = true ;
     localTime = theTime ;
 }
@@ -577,7 +577,7 @@ jsbsim_node::init_fdm(const std::string& model)
 	_fdm_exec.RunIC(); // loop JSBSim once w/o integrating
 }
 
-void 
+void
 jsbsim_node::copy_jsbsim_output()
 {
 	JSBSim::FGPropagate* propagate = _fdm_exec.GetPropagate();
