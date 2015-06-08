@@ -547,11 +547,19 @@ void jsbsim_node::feed_jsbsim()
 #define MetersOfFeet(_f) ((_f)/3.2808399)
 #define FeetOfMeters(_m) ((_m)*3.2808399)
 
+/**
+ * getenv with default value if the variable is not set
+ */
+std::string getenv(const std::string& name, const std::string& def) {
+    const char* value = std::getenv( name.c_str() );
+    return value ? value : def;
+}
+
+
 void
 jsbsim_node::init_fdm(const std::string& model)
 {
-	const char* home = getenv("JSBSIM_MORSE_HOME");
-	std::string rootdir(home);
+	std::string rootdir = getenv("JSBSIM_MORSE_HOME", "jsbsim/");
 	_fdm_exec.LoadModel(rootdir + "aircraft",
 					   rootdir + "engine",
 					   rootdir + "systems",
