@@ -11,6 +11,8 @@ robot = QUAD2012()
 
 teleport = Teleport()
 robot.append(teleport)
+#order is important, feet first, then ECEF
+teleport.alter('feet')
 teleport.alter('ECEF')
 teleport.alter('NED', 'morse.modifiers.ned.AnglesFromNED')
 teleport.add_stream('hla', 'jsbsim.middleware.hla.read_aircraft_input.AircraftPoseInput')
