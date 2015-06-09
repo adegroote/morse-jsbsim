@@ -5,7 +5,7 @@ This repository contains a work-in-progress component to make Morse interacts
 with the JSBSim FDM, using HLA.
 
 Dependencies
-++++++++++++
+------------
 
 - JSBSim
 - cmake
@@ -15,7 +15,7 @@ Dependencies
 
 
 Building
-++++++++
+--------
 
 ```
 cd cpp 
@@ -26,26 +26,26 @@ make
 ```
 
 Running a simulation
-++++++++++++++++++++
+--------------------
 
 In one console, start ``rtig``
 In another console:
 
-	```
-	export JSBSIM_MORSE_HOME="${MORSE_JSBSIM_REPO}/jsbsim/"
-	cd ${MORSE_JSBSIM_REPO}/cpp/build 
-	./jsbsim_node
+```
+export JSBSIM_MORSE_HOME="${MORSE_JSBSIM_REPO}/jsbsim/"
+cd ${MORSE_JSBSIM_REPO}/cpp/build 
+./jsbsim_node
 	```
 
 In last console:
 
-	```
-	morse run jsbsim
-	```
+```
+morse run jsbsim
+```
 
 Press enter in the second console when all simulators are ready.
 
 Status
-++++++
+------
 
 Not really working yet, see TODO file
