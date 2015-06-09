@@ -2,7 +2,7 @@ Morse-JSBSim
 ============
 
 This repository contains a work-in-progress component to make Morse interacts
-with the JSBSim FDM, using HLA.
+with the JSBSim flight dynamics model, using High-level architecture (HLA).
 
 Dependencies
 ------------
@@ -18,10 +18,10 @@ Building
 --------
 
 ```
-cd cpp 
+cd cpp
 mkdir build
 cd build
-cmake ../
+cmake ..
 make
 ```
 
@@ -33,7 +33,7 @@ In another console:
 
 ```
 export JSBSIM_MORSE_HOME="${MORSE_JSBSIM_REPO}/jsbsim/"
-cd ${MORSE_JSBSIM_REPO}/cpp/build 
+cd ${MORSE_JSBSIM_REPO}/cpp/build
 ./jsbsim_node
 ```
 
