@@ -23,10 +23,13 @@ class AircraftPoseInput(AbstractHLAInput):
             if not pos_attr or not rot_attr:
                 return 
 
-            self.data['x'] = MessageBufferReader(pos_attr).read_double()
-            self.data['y'] = MessageBufferReader(pos_attr).read_double()
-            self.data['z'] = MessageBufferReader(pos_attr).read_double()
-            self.data['yaw'] = MessageBufferReader(rot_attr).read_double()
-            self.data['pitch'] = MessageBufferReader(rot_attr).read_double()
-            self.data['roll'] = MessageBufferReader(rot_attr).read_double()
+            m_pos = MessageBufferReader(pos_attr)
+            m_or = MessageBufferReader(rot_attr)
+
+            self.data['x'] = m_pos.read_double()
+            self.data['y'] = m_pos.read_double()
+            self.data['z'] = m_pos.read_double()
+            self.data['yaw'] = m_or.read_double()
+            self.data['pitch'] = m_or.read_double()
+            self.data['roll'] = m_or.read_double()
 
