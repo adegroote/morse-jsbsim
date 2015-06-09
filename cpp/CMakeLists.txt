@@ -6,7 +6,7 @@ if (NOT JSBSIM_FOUND)
 	find_path(JSBSIM_INCLUDE_DIR
 		NAMES
 			FGFDMExec.h
-		PATHS 
+		PATHS
 			${JSBSIM_ROOT_DIR}/include/JSBSim
 			/usr/include/JSBSim
 			/usr/local/include/JSBSim
@@ -31,10 +31,10 @@ endif()
 
 find_package(CERTI REQUIRED)
 
-add_definitions(-std=c++11)
+add_definitions(-std=c++0x)
 
 set(CMAKE_SKIP_BUILD_RPATH  FALSE)
-set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) 
+set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 
 include_directories(${JSBSIM_INCLUDE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
