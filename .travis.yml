@@ -1,0 +1,15 @@
+language: cpp
+
+compiler:
+  - gcc
+
+# travis clang version 3.4 does not support parenthesized initialization
+# fix cpp/jsbsim_node.cc:26:4: error
+#  - clang
+
+before_install:
+ - sudo add-apt-repository ppa:irie/blender -y
+ - sudo apt-get update -qq
+ - sudo apt-get install -qq cmake blender python3.4-dev libgl1-mesa-dev libsdl1.2debian xvfb
+
+script: "time ./.travis.bash"
