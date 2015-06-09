@@ -12,7 +12,7 @@ robot = QUAD2012()
 teleport = Teleport()
 robot.append(teleport)
 teleport.alter('ECEF')
-teleport.alter('NED')
+teleport.alter('NED', 'morse.modifiers.ned.AnglesFromNED')
 teleport.add_stream('hla', 'jsbsim.middleware.hla.read_aircraft_input.AircraftPoseInput')
 
 pose = Pose()
