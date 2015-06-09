@@ -21,7 +21,7 @@ class AircraftPoseInput(AbstractHLAInput):
             rot_attr = attributes[self.handle_orientation]
 
             if not pos_attr or not rot_attr:
-                return 
+                return False
 
             m_pos = MessageBufferReader(pos_attr)
             m_or = MessageBufferReader(rot_attr)
@@ -32,4 +32,8 @@ class AircraftPoseInput(AbstractHLAInput):
             self.data['yaw'] = m_or.read_double()
             self.data['pitch'] = m_or.read_double()
             self.data['roll'] = m_or.read_double()
+
+            return True
+
+        return False
 
