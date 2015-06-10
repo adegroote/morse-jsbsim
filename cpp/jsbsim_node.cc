@@ -379,14 +379,6 @@ jsbsim_node::getHandles()
 }
 
 
-// ----------------------------------------------------------------------------
-/** Updates a ball by sending entity position and color.
-    \param x X position
-    \param y Y position
-    \param color Color
-    \param UpdateTime Event time
-    \param id Object handle (ball)
- */
 void
 jsbsim_node::sendUpdate(
 			const RTI::FedTime& UpdateTime,
@@ -413,7 +405,7 @@ jsbsim_node::sendUpdate(
 
 
     try {
-		rtiamb.updateAttributeValues(id, *attributeSet, UpdateTime, "coucou");
+		rtiamb.updateAttributeValues(id, *attributeSet, UpdateTime, "foo");
     }
     catch (RTI::Exception& e) {
         std::cout<<"Exception "<<e._name<<" ("<<e._reason<<")"<<std::endl;
