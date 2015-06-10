@@ -23,7 +23,7 @@ jsbsim_node::jsbsim_node(std::string federate_name)
       constrained(false),
       localTime(0.0),
       TIME_STEP(1.0 / 60),
-	  _control({1.0, 1.0, 1.0, 1.0})
+	  _control{1.0, 1.0, 1.0, 1.0}
 {
 }
 
@@ -353,11 +353,11 @@ jsbsim_node::publishAndSubscribe()
     // Get all class and attributes handles
     getHandles();
 
-	std::auto_ptr<RTI::AttributeHandleSet> attributes_pub(RTI::AttributeHandleSetFactory::create(2));
+	std::unique_ptr<RTI::AttributeHandleSet> attributes_pub(RTI::AttributeHandleSetFactory::create(2));
     attributes_pub->add(position_id);
     attributes_pub->add(orientation_id);
 
-	std::auto_ptr<RTI::AttributeHandleSet> attributes_sub(RTI::AttributeHandleSetFactory::create(1));
+	std::unique_ptr<RTI::AttributeHandleSet> attributes_sub(RTI::AttributeHandleSetFactory::create(1));
 	attributes_sub->add(control_id);
 
     rtiamb.subscribeObjectClassAttributes(aircraft_class_id, *attributes_sub, RTI::RTI_TRUE);
