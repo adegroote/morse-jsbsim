@@ -562,9 +562,8 @@ jsbsim_node::init_fdm(const std::string& model)
 	JSBSim::FGInitialCondition *IC = _fdm_exec.GetIC();
     IC->SetVgroundFpsIC(0.);
 
-    // Use flight plan initial conditions
-    // convert geodetic lat from flight plan to geocentric
-    IC->SetLatitudeDegIC(43.36);
+    // geocentric latitude
+    IC->SetLatitudeDegIC(43.067974660335075);
     IC->SetLongitudeDegIC(1.26);
 
     IC->SetWindNEDFpsIC(0.0, 0.0, 0.0);
