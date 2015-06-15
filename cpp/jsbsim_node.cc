@@ -563,7 +563,7 @@ jsbsim_node::init_fdm(const std::string& model)
     IC->SetVgroundFpsIC(0.);
 
     // geocentric latitude
-    IC->SetLatitudeDegIC(43.067974660335075);
+    IC->SetLatitudeDegIC(43.0683);
     IC->SetLongitudeDegIC(1.26);
 
     IC->SetWindNEDFpsIC(0.0, 0.0, 0.0);
@@ -580,9 +580,9 @@ void
 jsbsim_node::copy_jsbsim_output()
 {
 	JSBSim::FGPropagate* propagate = _fdm_exec.GetPropagate();
-	_x = propagate->GetLocation().Entry(1);
-	_y = propagate->GetLocation().Entry(2);
-	_z = propagate->GetLocation().Entry(3);
+	_x = propagate->GetLongitudeDeg();
+	_y = propagate->GetGeodLatitudeDeg ();
+	_z = propagate->GetAltitudeASLmeters();
 
 	_yaw = propagate->GetEuler(3);
 	_pitch = propagate->GetEuler(2);
