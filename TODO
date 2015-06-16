@@ -1,4 +1,3 @@
-- Understand what is wrong with the ecef modifier (or in the interaction with jsbsim :D)
 - Add a way to send command from Morse
 - Remove all this hard-coded stuff in the c++ node by passing properly arguments to it (from builder script information)
 - Add some way to launch a simulation easier
