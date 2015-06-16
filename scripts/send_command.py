@@ -34,8 +34,8 @@ class MyAmbassador(hla.rti.FederateAmbassador):
             print("%s not yet owned" %  self._name)
             return
         m = MessageBufferWriter()
-        for i in range(0, 3):
-            m.add_double(cmd[i])
+        for i in range(0, 4):
+            m.add_float(cmd[i])
         rtia.updateAttributeValues(self.obj, {self.control_handle: m.write() }, "foo")
 
 
