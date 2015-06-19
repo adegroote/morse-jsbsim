@@ -12,11 +12,13 @@
 #include <FGFDMExec.h>
 #pragma GCC diagnostic pop
 
+#include <boost/property_tree/ptree.hpp>
+
 class jsbsim_node : public NullFederateAmbassador
 {
 public:
 
-    jsbsim_node(std::string);
+    jsbsim_node(const boost::property_tree::ptree&, const std::string&);
     virtual ~jsbsim_node() throw (RTI::FederateInternalError);
 
     virtual void declare();
@@ -61,15 +63,18 @@ public:
 
     bool getCreator(){return creator;};
 
-	void init_fdm(const std::string& model);
+	void init_fdm();
 private:
 
     virtual void getHandles();
  
     RTI::RTIambassador rtiamb ;
+	boost::property_tree::ptree _ptree;
 
     std::string federateName ;
     std::string federationName ;
+	const char* _sync_point;
+	std::string _robot_name;
 
     RTI::FederateHandle handle ;
     bool creator ;

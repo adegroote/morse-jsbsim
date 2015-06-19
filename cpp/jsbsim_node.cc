@@ -10,12 +10,18 @@
 #include <FGJSBBase.h>
 #include <initialization/FGInitialCondition.h>
 
+namespace pt = boost::property_tree;
+
 // ----------------------------------------------------------------------------
 /** Constructor
  */
-jsbsim_node::jsbsim_node(std::string federate_name)
+jsbsim_node::jsbsim_node(const pt::ptree& ptree,
+						const std::string& robot_name)
     : rtiamb(),
-      federateName(federate_name),
+      federateName("jsbsim_ " + robot_name),
+	  _ptree(ptree),
+	  _sync_point(_ptree.get<std::string>("hla.sync_point").c_str()),
+	  _robot_name(robot_name),
       handle(0),
       creator(false),
       nbTicks(0),
@@ -82,7 +88,7 @@ jsbsim_node::pause()
 {
     if (creator) {
 		std::cerr << "Pause requested\n" << std::endl;
-		rtiamb.registerFederationSynchronizationPoint("Init", "Waiting all players.");
+		rtiamb.registerFederationSynchronizationPoint(_sync_point, "Waiting all players.");
     }
 }
 
@@ -202,7 +208,7 @@ jsbsim_node::synchronize(int autostart)
             }
 
         try {
-            rtiamb.synchronizationPointAchieved("Init");
+            rtiamb.synchronizationPointAchieved(_sync_point);
         }
         catch (RTI::Exception& e) {
         }
@@ -232,7 +238,7 @@ jsbsim_node::synchronize(int autostart)
 
         try {
             // Federate ends its synchronization.
-            rtiamb.synchronizationPointAchieved("Init");
+            rtiamb.synchronizationPointAchieved(_sync_point);
 			std::cerr << "Pause achieved." << std::endl;
         }
         catch (RTI::Exception& e) {
@@ -258,7 +264,7 @@ jsbsim_node::synchronize(int autostart)
 void
 jsbsim_node::declare()
 {
-    aircraft_id = rtiamb.registerObjectInstance(aircraft_class_id, "robot");
+    aircraft_id = rtiamb.registerObjectInstance(aircraft_class_id, _robot_name.c_str());
 }
 
 // ----------------------------------------------------------------------------
@@ -427,7 +433,7 @@ void
 jsbsim_node::announceSynchronizationPoint(const char *label, const char */*tag*/)
     throw (RTI::FederateInternalError)
 {
-    if (strcmp(label, "Init") == 0) {
+    if (strcmp(label, _sync_point) == 0) {
         paused = true ;
     }
     else {
@@ -443,7 +449,7 @@ void
 jsbsim_node::federationSynchronized(const char *label)
     throw (RTI::FederateInternalError)
 {
-    if (strcmp(label, "Init") == 0) {
+    if (strcmp(label, _sync_point) == 0) {
         paused = false ;
     }
 }
@@ -534,7 +540,6 @@ void jsbsim_node::feed_jsbsim()
 	set_attribute("fcs/right_motor", _control[3]);
 }
 
-#define GROUND_ALT 130.0
 /// Macro to convert from feet to metres
 #define MetersOfFeet(_f) ((_f)/3.2808399)
 #define FeetOfMeters(_m) ((_m)*3.2808399)
@@ -549,8 +554,12 @@ std::string getenv(const std::string& name, const std::string& def) {
 
 
 void
-jsbsim_node::init_fdm(const std::string& model)
+jsbsim_node::init_fdm()
 {
+	std::string robot_idx = "robots." + _robot_name;
+	pt::ptree pt = _ptree.get_child(robot_idx);
+	std::string model = pt.get<std::string>("model");
+	
 	std::string rootdir = getenv("JSBSIM_MORSE_HOME", "jsbsim/");
 	_fdm_exec.LoadModel(rootdir + "aircraft",
 					   rootdir + "engine",
@@ -563,12 +572,12 @@ jsbsim_node::init_fdm(const std::string& model)
     IC->SetVgroundFpsIC(0.);
 
     // geocentric latitude
-    IC->SetLatitudeDegIC(43.0683);
-    IC->SetLongitudeDegIC(1.26);
+    IC->SetLatitudeDegIC(pt.get<double>("latitude"));
+    IC->SetLongitudeDegIC(pt.get<double>("longitude"));
 
     IC->SetWindNEDFpsIC(0.0, 0.0, 0.0);
-    IC->SetAltitudeASLFtIC(FeetOfMeters(GROUND_ALT + 2.0));
-    IC->SetTerrainElevationFtIC(FeetOfMeters(GROUND_ALT));
+    IC->SetAltitudeASLFtIC(FeetOfMeters(pt.get<double>("altitude")));
+    IC->SetTerrainElevationFtIC(FeetOfMeters(_ptree.get<double>("env.altitude")));
     IC->SetPsiDegIC(0.0);
     IC->SetVgroundFpsIC(0.);
 

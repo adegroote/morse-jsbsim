@@ -11,10 +11,10 @@ int main(int argc, char **argv)
 
 	std::string federation = tree.get<std::string>("hla.federation");
 
-	jsbsim_node node("jsbsim");
+	jsbsim_node node(tree, "robot");
 	node.join(federation, "aircraft.fed");
 	node.pause();
-	node.init_fdm("simple_quad");
+	node.init_fdm();
 	node.publishAndSubscribe();
 	node.declare();
 	node.setTimeRegulation(true, true);
