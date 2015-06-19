@@ -9,6 +9,8 @@ from morse.builder import *
 from jsbsim.builder.jsbsim import JSBSimExporter
 
 robot = QUAD2012()
+robot.translate(x = 5, z = 5)
+robot.properties(jsbsim_model = 'simple_quad')
 
 teleport = Teleport()
 robot.append(teleport)
@@ -35,4 +37,4 @@ env.configure_stream_manager(
 
 env.set_log_level('morse.middleware.hla_datastream', 'debug')
 
-JSBSimExporter().dump()
+JSBSimExporter(env).dump()
