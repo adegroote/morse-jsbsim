@@ -32,7 +32,7 @@ env.properties(longitude = 1.26, latitude = 43.26, altitude = 130.0)
 env.configure_stream_manager(
         'hla',
          fom = 'aircraft.fed', name = 'Morse', federation = 'morse_fdm',
-         sync_point = 'Init', time_sync = True)
+         sync_point = 'Init', time_sync = True, sync_register = True)
 
 
 env.set_log_level('morse.middleware.hla_datastream', 'debug')

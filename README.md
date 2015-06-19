@@ -32,17 +32,16 @@ In one console, start ``rtig``
 In another console:
 
 ```
+morse run jsbsim
+```
+
+In last console, 
+```
 export JSBSIM_MORSE_HOME="${MORSE_JSBSIM_REPO}/jsbsim/"
 cd ${MORSE_JSBSIM_REPO}/cpp/build
 ./jsbsim_node
 ```
 
-
-In last console:
-
-```
-morse run jsbsim
-```
 
 
 Press enter in the second console when all simulators are ready.
