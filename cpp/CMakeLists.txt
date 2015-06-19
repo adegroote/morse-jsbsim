@@ -30,6 +30,7 @@ endif()
 endif()
 
 find_package(CERTI REQUIRED)
+find_package(Boost REQUIRED)
 
 add_definitions(-std=c++0x)
 

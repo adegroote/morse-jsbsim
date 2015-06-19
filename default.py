@@ -6,6 +6,7 @@ Feel free to edit this template as you like!
 """
 
 from morse.builder import *
+from jsbsim.builder.jsbsim import JSBSimExporter
 
 robot = QUAD2012()
 
@@ -33,3 +34,5 @@ env.configure_stream_manager(
 
 
 env.set_log_level('morse.middleware.hla_datastream', 'debug')
+
+JSBSimExporter().dump()
