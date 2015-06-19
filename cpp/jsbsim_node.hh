@@ -82,6 +82,7 @@ private:
 
     bool regulating ;
     bool constrained ;
+	double _fps;
     RTIfedTime localTime ;
     const RTIfedTime TIME_STEP ;
 

@@ -28,7 +28,8 @@ jsbsim_node::jsbsim_node(const pt::ptree& ptree,
       regulating(false),
       constrained(false),
       localTime(0.0),
-      TIME_STEP(1.0 / 60),
+	  _fps(_ptree.get<double>("simu.fps")),
+      TIME_STEP(1.0 / _fps),
 	  _control{1.0, 1.0, 1.0, 1.0}
 {
 }
@@ -567,7 +568,7 @@ jsbsim_node::init_fdm()
 					   model, false);
 
 
-	_fdm_exec.Setdt(1.0 / 60.0);
+	_fdm_exec.Setdt(1.0 / _fps);
 	JSBSim::FGInitialCondition *IC = _fdm_exec.GetIC();
     IC->SetVgroundFpsIC(0.);
 

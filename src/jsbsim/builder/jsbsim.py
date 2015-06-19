@@ -24,6 +24,9 @@ class JSBSimExporter:
         else:
             self.properties['hla'] = { 'federation' : hla_federation}
 
+    def _generate_simu_properties(self):
+        self.properties['simu'] = { 'fps' : bpymorse.get_fps() }
+
     def _generate_env_properties(self):
         env_props = bpymorse.get_properties(self.env._bpy_object)
         longitude = env_props.get('longitude')
@@ -64,6 +67,7 @@ class JSBSimExporter:
         self.properties['robots'] = robots
 
     def _generate_properties(self):
+        self._generate_simu_properties()
         self._generate_hla_properties()
         self._generate_env_properties()
         self._generate_robot_properties()
