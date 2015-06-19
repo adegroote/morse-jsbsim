@@ -39,10 +39,8 @@ In last console,
 ```
 export JSBSIM_MORSE_HOME="${MORSE_JSBSIM_REPO}/jsbsim/"
 cd ${MORSE_JSBSIM_REPO}/cpp/build
-./jsbsim_node
+./jsbsim_node --config /tmp/jsbsim_config.json --robot robot
 ```
-
-
 
 Press enter in the second console when all simulators are ready.
 

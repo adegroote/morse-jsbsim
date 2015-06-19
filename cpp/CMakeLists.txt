@@ -30,7 +30,7 @@ endif()
 endif()
 
 find_package(CERTI REQUIRED)
-find_package(Boost REQUIRED)
+find_package(Boost REQUIRED COMPONENTS program_options)
 
 add_definitions(-std=c++0x)
 
@@ -43,3 +43,4 @@ include_directories(${CERTI_INCLUDE_DIRS}/hla13 ${CERTI_INCLUDE_DIRS}/libhla)
 add_executable(jsbsim_node main.cc jsbsim_node.cc)
 target_link_libraries(jsbsim_node ${JSBSIM_LIBRARY})
 target_link_libraries(jsbsim_node ${CERTI_LIBRARIES})
+target_link_libraries(jsbsim_node ${Boost_LIBRARIES})
