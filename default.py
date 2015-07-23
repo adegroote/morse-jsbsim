@@ -7,6 +7,7 @@ Feel free to edit this template as you like!
 
 from morse.builder import *
 from jsbsim.builder.jsbsim import JSBSimExporter
+from jsbsim.builder.actuators import DirectControl
 
 robot = QUAD2012()
 robot.translate(x = 5, z = 5)
@@ -19,6 +20,11 @@ robot.append(teleport)
 teleport.alter('geodetic')
 teleport.alter('NED', 'morse.modifiers.ned.AnglesFromNED')
 teleport.add_stream('hla', 'jsbsim.middleware.hla.read_aircraft_input.AircraftPoseInput')
+
+ctrl = DirectControl()
+robot.append(ctrl)
+ctrl.add_stream('socket', 'morse.middleware.socket_datastream.SocketReader', direction = 'IN')
+ctrl.add_stream('hla', 'jsbsim.middleware.hla.write_aircraft_ctrl.AircraftCtrl', direction = 'OUT')
 
 pose = Pose()
 robot.append(pose)
