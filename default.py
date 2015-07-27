@@ -9,6 +9,8 @@ from morse.builder import *
 from jsbsim.builder.jsbsim import JSBSimExporter
 from jsbsim.builder.actuators import DirectControl
 
+bpymorse.set_speed(fps = 100, logic_step_max = 5, physics_step_max = 5)
+
 robot = QUAD2012()
 robot.translate(x = 5, z = 5)
 robot.properties(jsbsim_model = 'simple_quad')
@@ -18,7 +20,7 @@ robot.append(teleport)
 #order is important, feet first, then ECEF
 #teleport.alter('feet')
 teleport.alter('geodetic')
-teleport.alter('NED', 'morse.modifiers.ned.AnglesFromNED')
+teleport.alter('BodyNED', 'jsbsim.modifiers.body_ned.BodyENUfromNED')
 teleport.add_stream('hla', 'jsbsim.middleware.hla.read_aircraft_input.AircraftPoseInput')
 
 ctrl = DirectControl()
