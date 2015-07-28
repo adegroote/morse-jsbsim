@@ -21,7 +21,7 @@ robot.append(teleport)
 #order is important, feet first, then ECEF
 #teleport.alter('feet')
 teleport.alter('geodetic')
-teleport.alter('BodyNED', 'jsbsim.modifiers.body_ned.BodyENUfromNED')
+#teleport.alter('BodyNED', 'jsbsim.modifiers.body_ned.BodyENUfromNED')
 teleport.add_stream('hla', 'jsbsim.middleware.hla.read_aircraft_input.AircraftPoseInput')
 
 ctrl = DirectControl()
