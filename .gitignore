@@ -1,0 +1,5 @@
+*.sw*
+RTIG.log
+*/__pycache__/
+*.pyc
+cpp/build/
