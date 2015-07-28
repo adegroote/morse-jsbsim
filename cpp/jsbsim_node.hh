@@ -94,12 +94,15 @@ private:
     RTI::ObjectClassHandle aircraft_class_id;
     RTI::AttributeHandle position_id;
     RTI::AttributeHandle orientation_id;
+    RTI::AttributeHandle magnetometer_id;
     RTI::AttributeHandle control_id;
 
 	int aircraft_id;
 
 	double _x, _y, _z;
 	double _yaw, _pitch, _roll;
+	bool _has_mag;
+	double _mag_x, _mag_y, _mag_z;
 	float _control[4];
 
 	JSBSim::FGFDMExec _fdm_exec;
@@ -109,6 +112,16 @@ private:
 	void set_attribute(const std::string& attribute, double value)
 	{
 		_fdm_exec.GetPropertyManager()->GetNode(attribute)->SetDouble("", value);
+	}
+
+	bool has_attribute(const std::string& attribute)
+	{
+		return _fdm_exec.GetPropertyManager()->GetNode(attribute) != 0;
+	}
+		
+	double get_attribute(const std::string& attribute)
+	{
+		return _fdm_exec.GetPropertyManager()->GetNode(attribute)->GetDouble("");
 	}
 };
 

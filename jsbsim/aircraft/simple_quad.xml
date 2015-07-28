@@ -393,4 +393,47 @@
         </axis>
     </aerodynamics>
 
+  <system name="Navigation Sensors">
+		  <channel name="Magnetometer">
+				<magnetometer name="sensor/magnetometer/X">
+					<axis> X </axis>
+					<location unit="M">
+						<x> 0 </x>
+						<y> 0 </y>
+						<z> 0 </z>
+					</location>
+					<orientation unit="DEG">
+						<x> 0 </x>
+						<y> 0 </y>
+						<z> 0 </z>
+					</orientation>
+				</magnetometer>
+				<magnetometer name="sensor/magnetometer/Y">
+					<axis> Y </axis>
+					<location unit="M">
+						<x> 0 </x>
+						<y> 0 </y>
+						<z> 0 </z>
+					</location>
+					<orientation unit="DEG">
+						<x> 0 </x>
+						<y> 0 </y>
+						<z> 0 </z>
+					</orientation>
+				</magnetometer>
+				<magnetometer name="sensor/magnetometer/Z">
+					<axis> Z </axis>
+					<location unit="M">
+						<x> 0 </x>
+						<y> 0 </y>
+						<z> 0 </z>
+					</location>
+					<orientation unit="DEG">
+						<x> 0 </x>
+						<y> 0 </y>
+						<z> 0 </z>
+					</orientation>
+				</magnetometer>
+			</channel>
+	</system>
 </fdm_config>

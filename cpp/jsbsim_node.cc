@@ -360,9 +360,10 @@ jsbsim_node::publishAndSubscribe()
     // Get all class and attributes handles
     getHandles();
 
-	std::unique_ptr<RTI::AttributeHandleSet> attributes_pub(RTI::AttributeHandleSetFactory::create(2));
+	std::unique_ptr<RTI::AttributeHandleSet> attributes_pub(RTI::AttributeHandleSetFactory::create(3));
     attributes_pub->add(position_id);
     attributes_pub->add(orientation_id);
+	attributes_pub->add(magnetometer_id);
 
 	std::unique_ptr<RTI::AttributeHandleSet> attributes_sub(RTI::AttributeHandleSetFactory::create(1));
 	attributes_sub->add(control_id);
@@ -382,6 +383,7 @@ jsbsim_node::getHandles()
     // Attributs des classes d'Objets
     position_id = rtiamb.getAttributeHandle("position", aircraft_class_id);
     orientation_id = rtiamb.getAttributeHandle("orientation", aircraft_class_id);
+	magnetometer_id = rtiamb.getAttributeHandle("magnetometer", aircraft_class_id);
     control_id = rtiamb.getAttributeHandle("control", aircraft_class_id);
 }
 
@@ -394,7 +396,8 @@ jsbsim_node::sendUpdate(
     libhla::MessageBuffer buffer;
     RTI::AttributeHandleValuePairSet *attributeSet ;
 
-    attributeSet = RTI::AttributeSetFactory::create(2);
+	int pub_size = _has_mag ? 3 : 2;
+    attributeSet = RTI::AttributeSetFactory::create(pub_size);
 
     buffer.reset();
     buffer.write_double(_x);
@@ -409,6 +412,15 @@ jsbsim_node::sendUpdate(
     buffer.write_double(_roll);
     buffer.updateReservedBytes();
     attributeSet->add(orientation_id, static_cast<char*>(buffer(0)),buffer.size());
+
+	if (_has_mag) {
+		buffer.reset();
+		buffer.write_double(_mag_x);
+		buffer.write_double(_mag_y);
+		buffer.write_double(_mag_z);
+		buffer.updateReservedBytes();
+		attributeSet->add(magnetometer_id, static_cast<char*>(buffer(0)),buffer.size());
+	}
 
 
     try {
@@ -567,6 +579,7 @@ jsbsim_node::init_fdm()
 					   rootdir + "systems",
 					   model, false);
 
+	_fdm_exec.PrintPropertyCatalog();
 
 	_fdm_exec.Setdt(1.0 / _fps);
 	JSBSim::FGInitialCondition *IC = _fdm_exec.GetIC();
@@ -597,4 +610,12 @@ jsbsim_node::copy_jsbsim_output()
 	_yaw = propagate->GetEuler(3);
 	_pitch = propagate->GetEuler(2);
 	_roll = propagate->GetEuler(1);
+
+	_has_mag = has_attribute("sensor/magnetometer/X");
+
+	if (_has_mag) {
+		_mag_x = get_attribute("sensor/magnetometer/X");
+		_mag_y = get_attribute("sensor/magnetometer/Y");
+		_mag_z = get_attribute("sensor/magnetometer/Z");
+	}
 }

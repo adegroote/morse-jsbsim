@@ -1,0 +1,1 @@
+from .jsbsimmagnetometer import JsbsimMagnetometer

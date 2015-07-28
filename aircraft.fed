@@ -9,6 +9,7 @@
 			(class Aircraft
 				(attribute position reliable timestamp)
 				(attribute orientation reliable timestamp)
+				(attribute magnetometer reliable timestamp)
 				(attribute control reliable timestamp)
 			)
 		)

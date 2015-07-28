@@ -8,6 +8,7 @@ Feel free to edit this template as you like!
 from morse.builder import *
 from jsbsim.builder.jsbsim import JSBSimExporter
 from jsbsim.builder.actuators import DirectControl
+from jsbsim.builder.sensors import JsbsimMagnetometer
 
 bpymorse.set_speed(fps = 100, logic_step_max = 5, physics_step_max = 5)
 
@@ -31,6 +32,15 @@ ctrl.add_stream('hla', 'jsbsim.middleware.hla.write_aircraft_ctrl.AircraftCtrl',
 pose = Pose()
 robot.append(pose)
 pose.add_stream('socket')
+
+morse_mag = Magnetometer()
+robot.append(morse_mag)
+morse_mag.add_stream('socket')
+
+jsbsim_mag = JsbsimMagnetometer()
+robot.append(jsbsim_mag)
+jsbsim_mag.add_stream('socket', 'morse.middleware.socket_datastream.SocketPublisher', direction = 'OUT')
+jsbsim_mag.add_stream('hla', 'jsbsim.middleware.hla.read_magnetometer_input.MagnetometerInput', direction = 'IN')
 
 # set 'fastmode' to True to switch to wireframe mode
 env = Environment('sandbox', fastmode = False)
