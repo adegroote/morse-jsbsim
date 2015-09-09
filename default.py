@@ -25,6 +25,7 @@ teleport.alter('geodetic')
 teleport.add_stream('hla', 'jsbsim.middleware.hla.read_aircraft_input.AircraftPoseInput')
 
 ctrl = DirectControl()
+ctrl.properties(cmd_description = 'fcs/front_motor,fcs/back_motor,fcs/left_motor,fcs/right_motor')
 robot.append(ctrl)
 ctrl.add_stream('socket', 'morse.middleware.socket_datastream.SocketReader', direction = 'IN')
 ctrl.add_stream('hla', 'jsbsim.middleware.hla.write_aircraft_ctrl.AircraftCtrl', direction = 'OUT')

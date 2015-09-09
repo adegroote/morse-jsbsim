@@ -29,8 +29,7 @@ jsbsim_node::jsbsim_node(const pt::ptree& ptree,
       constrained(false),
       localTime(0.0),
 	  _fps(_ptree.get<double>("simu.fps")),
-      TIME_STEP(1.0 / _fps),
-	  _control{1.0, 1.0, 1.0, 1.0}
+      TIME_STEP(1.0 / _fps)
 {
 }
 
@@ -476,30 +475,14 @@ jsbsim_node::reflectAttributeValues(
     RTI::ObjectHandle theObject,
     const RTI::AttributeHandleValuePairSet& theAttributes,
     const RTI::FedTime& /*theTime*/,
-    const char */*theTag*/,
+    const char *theTag,
     RTI::EventRetractionHandle /*theHandle*/)
     throw (RTI::ObjectNotKnown,
            RTI::AttributeNotKnown,
            RTI::InvalidFederationTime,
            RTI::FederateInternalError)
 {
-    libhla::MessageBuffer buffer;
-
-    RTI::ULong valueLength ;
-
-    for (unsigned int j=0 ; j<theAttributes.size(); j++) {
-
-        RTI::AttributeHandle parmHandle = theAttributes.getHandle(j);
-        valueLength = theAttributes.getValueLength(j);
-        assert(valueLength>0);
-        buffer.resize(valueLength);
-        buffer.reset();
-        theAttributes.getValue(j, static_cast<char*>(buffer(0)), valueLength);
-        buffer.assumeSizeFromReservedBytes();
-
-        if (parmHandle == control_id)
-			buffer.read_floats(_control, sizeof(_control)/sizeof(_control[0]));
-    }
+	return reflectAttributeValues(theObject, theAttributes, theTag);
 }
 
 // ----------------------------------------------------------------------------
@@ -528,8 +511,31 @@ jsbsim_node::reflectAttributeValues(
         theAttributes.getValue(j, static_cast<char*>(buffer(0)), valueLength);
         buffer.assumeSizeFromReservedBytes();
 
-        if (parmHandle == control_id)
-			buffer.read_floats(_control, sizeof(_control)/sizeof(_control[0]));
+        if (parmHandle == control_id) {
+			char kind;
+			buffer.read_byte(&kind);
+
+			const char* default_attribute_value [] = {
+				"fcs/front_motor",
+				"fcs/back_motor",
+				"fcs/left_motor", 
+				"fcs/right_motor"
+			};
+			
+			for (size_t i = 0; i < 4; ++i) {
+				if (kind == 'F') {
+					float f;
+					buffer.read_float(&f);
+					_controls[default_attribute_value[i]] = f;
+				} else {
+					std::string s;
+					float f;
+					buffer.read_string(s);
+					buffer.read_float(&f);
+					_controls[s] = f;
+				}
+			}
+		}
     }
 }
 
@@ -547,10 +553,8 @@ jsbsim_node::timeAdvanceGrant(const RTI::FedTime& theTime)
 
 void jsbsim_node::feed_jsbsim()
 {
-	set_attribute("fcs/front_motor", _control[0]);
-	set_attribute("fcs/back_motor", _control[1]);
-	set_attribute("fcs/left_motor", _control[2]);
-	set_attribute("fcs/right_motor", _control[3]);
+	for (auto it = _controls.cbegin(); it != _controls.cend(); ++it)
+		set_attribute(it->first, it->second);
 }
 
 /// Macro to convert from feet to metres

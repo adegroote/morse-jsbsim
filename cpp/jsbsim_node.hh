@@ -103,7 +103,7 @@ private:
 	double _yaw, _pitch, _roll;
 	bool _has_mag;
 	double _mag_x, _mag_y, _mag_z;
-	float _control[4];
+	std::map<std::string, float> _controls;
 
 	JSBSim::FGFDMExec _fdm_exec;
 	void feed_jsbsim();
