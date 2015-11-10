@@ -2,7 +2,7 @@ from morse.builder.abstractcomponent import Configuration
 from morse.builder import bpymorse
 from morse.builder.data import MORSE_DATASTREAM_MODULE 
 from morse.helpers.coordinates import CoordinateConverter
-from math import degrees
+from math import degrees, pi
 
 import json
 import numpy
@@ -32,8 +32,15 @@ class JSBSimExporter:
         longitude = env_props.get('longitude')
         geod_latitude = env_props.get('latitude')
         altitude = env_props.get('altitude')
+        if 'angle_against_north' in env_props:
+            angle = env_props.get('angle_against_north')  - pi/2
+        else:
+            angle = 0.0
 
-        self.coord_conv = CoordinateConverter(geod_latitude, longitude, altitude)
+        try:
+            self.coord_conv = CoordinateConverter(geod_latitude, longitude, altitude, angle)
+        except:
+            self.coord_conv = CoordinateConverter(geod_latitude, longitude, altitude)
         geoc_latitude = self.coord_conv.geodetic_to_geocentric(geod_latitude, altitude)
 
         self.properties['env'] = {'longitude' : longitude,
