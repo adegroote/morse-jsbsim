@@ -1,11 +1,15 @@
-- There is some issue in the initialisation of the pose, which should explains
+JSBSIM
+
+- There is some issue in the initialisation of the pose, which should explain
   most issue previously encountered such as :
 	- wrong ECEF position
 	- the magnetic field computation is not exactly the same for Morse and JSBSIM
   Understand the cause of it :)
+- Improve interaction with ground
 
-- Add some way to launch a simulation more easily
+MORSE 
 - Find a way to define some kind of interfaces (magnetometer and
   Jsbsim_magnetometer has the same interface by 'accident')
 
-
+OTHER
+- Add some way to launch a simulation more easily
