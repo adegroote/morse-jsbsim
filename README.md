@@ -42,9 +42,9 @@ cd ${MORSE_JSBSIM_REPO}/cpp/build
 ./jsbsim_node --config /tmp/jsbsim_config.json --robot robot
 ```
 
-Press enter in the second console when all simulators are ready.
+Press enter in the Morse console when all simulators are ready.
 
 Status
 ------
 
-Not really working yet, see TODO file
+It is mostly working, through some details still need some polishing
