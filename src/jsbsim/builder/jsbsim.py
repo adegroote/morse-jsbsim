@@ -41,11 +41,18 @@ class JSBSimExporter:
             self.coord_conv = CoordinateConverter(geod_latitude, longitude, altitude, angle)
         except:
             self.coord_conv = CoordinateConverter(geod_latitude, longitude, altitude)
-        geoc_latitude = self.coord_conv.geodetic_to_geocentric(geod_latitude, altitude)
 
-        self.properties['env'] = {'longitude' : longitude,
-                                  'latitude': geoc_latitude,
-                                  'altitude': altitude}
+        geoc = self.coord_conv.ecef_to_geocentric(
+                    self.coord_conv.ltp_to_ecef(
+                    self.coord_conv.blender_to_ltp(
+                        numpy.matrix([0.0, 0.0, 0.0]))))
+        geoc[0, 0] = degrees(geoc[0, 0])
+        geoc[0, 1] = degrees(geoc[0, 1])
+        geoc[0, 2] -= self.coord_conv.A
+
+        self.properties['env'] = {'longitude': geoc[0, 0],
+                                  'latitude':   geoc[0, 1],
+                                  'altitude':   geoc[0, 2] }
 
     def _generate_robot_properties(self):
         robots = {}
@@ -56,16 +63,17 @@ class JSBSimExporter:
                 rot = obj.rotation_euler
                 model = p['jsbsim_model'].value
 
-                coord = self.coord_conv.ltp_to_geodetic(numpy.matrix(loc))
-                longitude = degrees(coord[0, 0])
-                geod_altitude = degrees(coord[0, 1])
-                altitude = coord[0, 2]
-                geoc_latitude = self.coord_conv.geodetic_to_geocentric(geod_altitude, altitude)
+                geoc = self.coord_conv.ecef_to_geocentric(
+                        self.coord_conv.ltp_to_ecef(
+                            self.coord_conv.blender_to_ltp(numpy.matrix(loc))))
+                geoc[0, 0] = degrees(geoc[0, 0])
+                geoc[0, 1] = degrees(geoc[0, 1])
+                geoc[0, 2] -= self.coord_conv.A
 
                 # XXX check angles orientation
-                robots[obj.name] = {'longitude' : longitude,
-                                    'latitude' : geoc_latitude,
-                                    'altitude' : altitude,
+                robots[obj.name] = {'longitude' : geoc[0, 0],
+                                    'latitude' :  geoc[0, 1],
+                                    'altitude' :  geoc[0, 2],
                                     'yaw' : rot.z,
                                     'pitch': rot.y,
                                     'roll' : rot.x,
