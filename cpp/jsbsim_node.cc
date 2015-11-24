@@ -607,9 +607,10 @@ void
 jsbsim_node::copy_jsbsim_output()
 {
 	JSBSim::FGPropagate* propagate = _fdm_exec.GetPropagate();
-	_x = propagate->GetLongitudeDeg();
-	_y = propagate->GetGeodLatitudeDeg ();
-	_z = propagate->GetAltitudeASLmeters();
+	const JSBSim::FGLocation& loc = propagate->GetLocation();
+	_x = loc.Entry(1);
+	_y = loc.Entry(2);
+	_z = loc.Entry(3);
 
 	_yaw = propagate->GetEuler(3);
 	_pitch = propagate->GetEuler(2);

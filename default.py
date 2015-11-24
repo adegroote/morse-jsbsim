@@ -13,14 +13,14 @@ from jsbsim.builder.sensors import JsbsimMagnetometer
 bpymorse.set_speed(fps = 100, logic_step_max = 5, physics_step_max = 5)
 
 robot = QUAD2012()
-robot.translate(x = 5, z = 5)
+robot.translate(z = 10)
 robot.properties(jsbsim_model = 'simple_quad')
 
 teleport = Teleport()
 robot.append(teleport)
 #order is important, feet first, then ECEF
-#teleport.alter('feet')
-teleport.alter('geodetic')
+teleport.alter('feet')
+teleport.alter('ECEF')
 #teleport.alter('BodyNED', 'jsbsim.modifiers.body_ned.BodyENUfromNED')
 teleport.add_stream('hla', 'jsbsim.middleware.hla.read_aircraft_input.AircraftPoseInput')
 
