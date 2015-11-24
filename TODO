@@ -1,10 +1,5 @@
 JSBSIM
 
-- There is some issue in the initialisation of the pose, which should explain
-  most issue previously encountered such as :
-	- wrong ECEF position
-	- the magnetic field computation is not exactly the same for Morse and JSBSIM
-  Understand the cause of it :)
 - Improve interaction with ground
 
 MORSE 
